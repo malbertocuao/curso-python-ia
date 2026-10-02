@@ -8,8 +8,9 @@ El repositorio crece con el curso: antes de cada sesión se publica su punto de 
 
 ## Primeros pasos
 
-Requisitos: [uv](https://docs.astral.sh/uv/) y Git. Más adelante: Docker (sesión 7) y
-[Ollama](https://ollama.com) (sesión 8).
+Requisitos: [uv](https://docs.astral.sh/uv/) y Git. Más adelante: Ollama (sesión 6), Docker
+(sesión 7) y Tesseract (sesión 11). Todo se explica, para Mac, Windows y Linux, en
+**[INSTALACION.md](INSTALACION.md)**, con el modelo que conviene según la memoria de su equipo.
 
 1. En GitHub, botón **Use this template → Create a new repository**: cada uno trabaja en su propio
    repositorio, y su pareja revisa sus Pull Requests.

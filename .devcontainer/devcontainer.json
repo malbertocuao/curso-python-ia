@@ -5,12 +5,25 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
     "ghcr.io/va-h/devcontainers-features/uv:1": {}
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-spa && uv sync && cp -n .env.example .env",
-  "forwardPorts": [8000],
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y tesseract-ocr tesseract-ocr-spa && uv sync && cp -n .env.example .env && sed -i 's#localhost:11434#host.docker.internal:11434#' .env",
+  "forwardPorts": [
+    8000
+  ],
   "customizations": {
     "vscode": {
-      "extensions": ["ms-python.python", "charliermarsh.ruff", "ms-python.mypy-type-checker",
-                     "ms-azuretools.vscode-docker", "humao.rest-client"]
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "ms-azuretools.vscode-docker",
+        "humao.rest-client"
+      ]
     }
-  }
+  },
+  "containerEnv": {
+    "OLLAMA_URL": "http://host.docker.internal:11434/v1"
+  },
+  "runArgs": [
+    "--add-host=host.docker.internal:host-gateway"
+  ]
 }

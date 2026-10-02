@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.env
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+diagnostico/solucion_facilitador.py
+prueba_final/solucion_facilitador.py
+fundamentos/solucion_*.py
+.DS_Store

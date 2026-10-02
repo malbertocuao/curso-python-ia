@@ -1,0 +1,27 @@
+# Verifica cada Pull Request: estilo, tipos, pruebas y que no se cuele ningún secreto.
+# Las pruebas del taller en curso fallan hasta que se implementa: el verde es la meta.
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+      - run: uv sync --locked
+      - run: uv run ruff check
+      - run: uv run mypy src
+      - run: uv run pytest
+
+  secretos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: docker run --rm -v "$PWD":/repo ghcr.io/gitleaks/gitleaks:v8.30.1 dir /repo --no-banner

@@ -7,8 +7,9 @@ en la que se usa.
 
 | Para la sesión | Qué se necesita |
 |---|---|
-| 1 (5 oct) | Git, [uv](https://docs.astral.sh/uv/) y un editor (VS Code o PyCharm) |
+| 1 (5 oct) | Git, [uv](https://docs.astral.sh/uv/) y un editor (VS Code o PyCharm). Python no hace falta instalarlo aparte: `uv sync` descarga Python 3.12 si no lo tiene |
 | 6 (26 oct) | Ollama y el modelo de su tamaño (ver tabla); conviene instalarlo antes de la sesión 5 |
+| 8 (4 nov) | El segundo modelo de su tamaño, o una llave de un proveedor comercial |
 | 7 (28 oct) | Docker |
 | 10 (11 nov) | Modelo de embeddings: `ollama pull qwen3-embedding:0.6b` |
 | 11 (18 nov) | Tesseract con el idioma español, y el modelo de visión de su tamaño |
@@ -57,24 +58,30 @@ En Linux, `host.docker.internal` no existe por defecto: al correr un contenedor 
 agregue `--add-host=host.docker.internal:host-gateway` (en `docker-compose.yml`:
 `extra_hosts: ["host.docker.internal:host-gateway"]`).
 
-## Qué modelo descargar según la memoria de su equipo
+## Qué modelos descargar según la memoria de su equipo
 
-| Memoria (RAM, o unificada en Mac) | Modelo de chat | Visión (sesión 11) |
-|---|---|---|
-| 8 GB | `qwen3:1.7b` | Proveedor comercial, o solo Tesseract |
-| 16 GB | `qwen3:4b-instruct` | `qwen2.5vl:3b` |
-| 24 GB o más | `qwen3:14b` | `qwen2.5vl:7b` |
+| Memoria (RAM, o unificada en Mac) | Chat principal | Segundo modelo (sesión 8) | Visión (sesión 11) |
+|---|---|---|---|
+| 8 GB | `qwen3:1.7b` | `qwen3:0.6b` | Proveedor comercial, o solo Tesseract |
+| 16 GB | `qwen3:4b-instruct` | `qwen3:1.7b` | `qwen2.5vl:3b` |
+| 24 GB o más | `qwen3:14b` | `gpt-oss:20b` (cárguelo solo) | `qwen2.5vl:7b` |
 
-Todos usan el mismo modelo de embeddings: `qwen3-embedding:0.6b`. Con poca memoria, cierre Docker
-y el navegador mientras prueba el modelo: el modelo, el sistema y sus programas comparten la misma
-memoria.
+Todos usan el mismo modelo de embeddings: `qwen3-embedding:0.6b`. En la sesión 8 se comparan dos
+modelos; el segundo puede ser el de la tabla o un proveedor comercial. Con poca memoria, cierre
+Docker y el navegador mientras prueba un modelo: el modelo, el sistema y sus programas comparten
+la misma memoria, y conviene tener uno solo cargado a la vez.
+
+Descárguelos con tiempo: suman de 3 a 30 GB según el equipo. Por ejemplo, con 16 GB:
 
 ```bash
-ollama pull qwen3:4b-instruct              # el de su tamaño
+ollama pull qwen3:4b-instruct        # chat principal, antes de la sesión 6
+ollama pull qwen3:1.7b               # segundo modelo, antes de la sesión 8
+ollama pull qwen3-embedding:0.6b     # embeddings, antes de la sesión 10
+ollama pull qwen2.5vl:3b             # visión, antes de la sesión 11
 ollama run qwen3:4b-instruct "Hola, responde en una frase"
 ```
 
-En su `.env` (copia de `.env.example`), ponga el modelo que descargó:
+En su `.env` (copia de `.env.example`), ponga el modelo principal que descargó:
 
 ```bash
 LLM_PROVIDER=ollama

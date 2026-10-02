@@ -9,8 +9,8 @@ en la que se usa.
 |---|---|
 | 1 (5 oct) | Git, [uv](https://docs.astral.sh/uv/) y un editor (VS Code o PyCharm). Python no hace falta instalarlo aparte: `uv sync` descarga Python 3.12 si no lo tiene |
 | 6 (26 oct) | Ollama y el modelo de su tamaño (ver tabla); conviene instalarlo antes de la sesión 5 |
-| 8 (4 nov) | El segundo modelo de su tamaño, o una llave de un proveedor comercial |
 | 7 (28 oct) | Docker |
+| 8 (4 nov) | El segundo modelo de su tamaño, o una llave de un proveedor comercial |
 | 10 (11 nov) | Modelo de embeddings: `ollama pull qwen3-embedding:0.6b` |
 | 11 (18 nov) | Tesseract con el idioma español, y el modelo de visión de su tamaño |
 

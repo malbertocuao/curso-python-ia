@@ -62,7 +62,7 @@ agregue `--add-host=host.docker.internal:host-gateway` (en `docker-compose.yml`:
 | Memoria (RAM, o unificada en Mac) | Modelo de chat | Visión (sesión 11) |
 |---|---|---|
 | 8 GB | `qwen3:1.7b` | Proveedor comercial, o solo Tesseract |
-| 16 GB | `qwen3:4b` | `qwen2.5vl:3b` |
+| 16 GB | `qwen3:4b-instruct` | `qwen2.5vl:3b` |
 | 24 GB o más | `qwen3:14b` | `qwen2.5vl:7b` |
 
 Todos usan el mismo modelo de embeddings: `qwen3-embedding:0.6b`. Con poca memoria, cierre Docker
@@ -70,16 +70,21 @@ y el navegador mientras prueba el modelo: el modelo, el sistema y sus programas 
 memoria.
 
 ```bash
-ollama pull qwen3:4b              # el de su tamaño
-ollama run qwen3:4b "Hola, responde en una frase"
+ollama pull qwen3:4b-instruct              # el de su tamaño
+ollama run qwen3:4b-instruct "Hola, responde en una frase"
 ```
 
 En su `.env` (copia de `.env.example`), ponga el modelo que descargó:
 
 ```bash
 LLM_PROVIDER=ollama
-OLLAMA_MODEL=qwen3:4b
+OLLAMA_MODEL=qwen3:4b-instruct
 ```
+
+Los modelos Qwen3 y gpt-oss pueden "pensar" antes de responder, lo que multiplica el tiempo de
+respuesta. El kit lo desactiva por defecto (`OLLAMA_REASONING=none` en `.env`). Por eso el modelo
+de 16 GB es `qwen3:4b-instruct` y no `qwen3:4b`: este último siempre razona y tarda unas diez veces
+más.
 
 Y ejecute cargando ese archivo: `uv run --env-file .env uvicorn asistente.api.main:app --reload`.
 

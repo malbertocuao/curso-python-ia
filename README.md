@@ -95,8 +95,14 @@ se publica en cada sesión.
 
 ## Ejercicios
 
+La práctica de la introducción y de los anexos A y B llega con `git fetch upstream --tags` y
+`git merge s00-intro`, igual que una sesión.
+
 | Carpeta | Para qué |
 |---|---|
+| `introduccion/` | Práctica de la introducción a Python: `uv run pytest introduccion -v` |
+| `tipos_de_datos/` | Práctica del anexo A, métodos de los tipos: `uv run pytest tipos_de_datos -v` |
+| `pruebas_pytest/` | Práctica del anexo B: usted escribe las pruebas; `uv run python pruebas_pytest/verificar.py` |
 | `diagnostico/` | Prueba diagnóstica de la sesión 1: `uv run pytest diagnostico` |
 | `fundamentos/` | Ejercicios de "Python a fondo", sesiones 1 a 6 (ver `fundamentos/README.md`) |
 

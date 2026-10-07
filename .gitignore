@@ -9,3 +9,6 @@ diagnostico/solucion_facilitador.py
 prueba_final/solucion_facilitador.py
 fundamentos/solucion_*.py
 .DS_Store
+introduccion/solucion_*.py
+tipos_de_datos/solucion_*.py
+pruebas_pytest/solucion_*.py

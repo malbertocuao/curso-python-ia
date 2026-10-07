@@ -60,6 +60,9 @@ la instalación.
 
 ## Al comenzar cada sesión
 
+Antes, guarde en un commit lo que tenga pendiente (`git add -A` y `git commit -m "Mi avance"`; si
+dice `nothing to commit`, no había nada). Luego:
+
 ```powershell
 git fetch upstream --tags
 git switch main
@@ -67,6 +70,22 @@ git merge s02-inicio          # el número de la sesión que empieza
 uv sync
 uv run pytest                 # las pruebas del taller nuevo aparecen en rojo
 ```
+
+### La primera vez: `refusing to merge unrelated histories`
+
+Un repositorio creado con **Use this template** no comparte historia con el del curso, y la primera
+vez Git se niega a unirlos. Esa vez (solo esa), use en lugar del `git merge` de arriba:
+
+```powershell
+git merge s02-inicio --allow-unrelated-histories -X theirs -m "Unir con el repositorio del curso"
+git checkout HEAD~1 -- diagnostico fundamentos
+git commit -m "Conservar mi trabajo del diagnóstico"
+uv sync
+```
+
+`-X theirs` toma la versión del curso de los archivos que chocan (`pyproject.toml`, `uv.lock`,
+`README.md`…) y el `checkout` recupera su trabajo en `diagnostico/` y `fundamentos/`. Si el último
+`commit` dice `nothing to commit`, es normal. Desde ahí, el `git merge` normal ya funciona.
 
 El taller consiste en ponerlas en verde, en una rama y con Pull Request:
 

@@ -59,7 +59,13 @@ class Document:
     # taller: s02
     def split(self, size: int = 800, overlap: int = 100) -> list[Chunk]:
         """Divide el documento en fragmentos con solapamiento (se usa en RAG, sesión 10)."""
-        raise NotImplementedError
+        if not 0 <= overlap < size:
+            raise ValueError("overlap debe estar entre 0 y size-1")
+        if self.is_empty:
+            return []
+        step = size - overlap
+        starts = range(0, max(len(self.content) - overlap, 1), step)
+        return [self._chunk(self.content[i : i + size], n) for n, i in enumerate(starts)]
 
     # taller: s10
     def split_paragraphs(self, max_chars: int = 1200) -> list[Chunk]:
@@ -88,7 +94,11 @@ class Conversation:
     # taller: s02
     def add(self, role: Role, content: str) -> Message:
         """Agrega un turno de usuario o de asistente; el de sistema se fija al crearla."""
-        raise NotImplementedError
+        if role is Role.SYSTEM:
+            raise ValueError("El system prompt se fija al crear la conversación")
+        msg = Message(role, content)
+        self._messages.append(msg)
+        return msg
 
     def _system(self) -> str:
         if not self.summary:
@@ -101,7 +111,15 @@ class Conversation:
 
         Aproximación didáctica: ~4 caracteres ≈ 1 token.
         """
-        raise NotImplementedError
+        system = self._system()
+        selected: list[Message] = []
+        budget = max_chars - len(system)
+        for msg in reversed(self._messages):
+            if len(msg.content) > budget:
+                break
+            selected.append(msg)
+            budget -= len(msg.content)
+        return [Message(Role.SYSTEM, system), *reversed(selected)]
 
     # taller: s09
     def replace_history(self, summary: str, recent: list[Message]) -> None:
